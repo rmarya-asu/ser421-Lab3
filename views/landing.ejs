@@ -1,0 +1,27 @@
+<HTML>
+
+<HEAD>
+  <TITLE>Books</TITLE>
+</HEAD>
+
+<BODY>
+  <H2><%=header%></H2>
+  <br/>
+  <TABLE cellpadding="10">
+    <TH>Name</TH>
+    <TH>AUTHOR</TH>
+    <TH>Price</TH>
+    <TH>More Info</TH>
+    </TR>
+    <% for (var i=0;i<books.length;i++){%>
+    <TR>
+      <TD><%=books[i].title%></TD>
+      <TD><%=books[i].author%></TD>
+      <TD><%=books[i].price%></TD>
+      <TD><a href="http://www.igstk.org/IGSTK/help/documentation.html">Get Info</a>
+    </TR>
+     <%}%>
+  </TABLE>
+</BODY>I want to <a href="http://lead2.poly.asu.edu:8080//login.html">purchase something</a>!
+
+</HTML>
