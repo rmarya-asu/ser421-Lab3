@@ -160,8 +160,12 @@ router.post('/confirm', auth.auth, function(req, res, next) {
   res.render('confirm', {
     title: 'confirmation page',
     customer: req.session.user
-  })
-})
+  });
+});
+
+router.get('/logout', auth.unauth, function(req, res, next) {
+  res.redirect('/landing');
+});
 
 router.get('/books/:id', function(req, res) {
   for (var i = 0; i < books.length; i++) {
@@ -186,7 +190,9 @@ router.get('/books/:id', function(req, res) {
   }
 });
 
-router.get('/logout', auth.unauth, function(req, res, next) {
-  res.redirect('/');
-});
+
+
+
+
+
 module.exports = router;

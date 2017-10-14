@@ -25,7 +25,7 @@ var auth = function(req,res,next){
       next();
     }
     else{
-      res.redirect('/');
+      res.redirect('/landing');
     }
   }
 
