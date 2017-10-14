@@ -110,7 +110,9 @@ router.get('/login', function(req, res, next) {
 });
 //TODO: GET route for individual books.
 router.post('/signin', auth.auth, function(req, res, next) {
-  res.render('loggedin',{user:req.session.user});
+  res.render('loggedin', {
+    user: req.session.user
+  });
 });
 router.get('/list', auth.auth, function(req, res, next) {
   res.render('shop', {
@@ -129,19 +131,33 @@ var calculate = function(quantity, selectedBooks) {
     cardType: 'MasterCard',
     exp: 'no'
   }
-  for (var i = 0; i < selectedBooks.length; i++) {
-    var bookandprice = selectedBooks[i].split(',');
+  if (typeof selectedBooks === 'string') {
+    var booknpr = selectedBooks.split(',');
     cart.books.push({
-      title: bookandprice[0],
-      price: parseInt(bookandprice[1]),
-      totalPrice: parseInt(bookandprice[1] * cart.qty)
+      title: booknpr[0],
+      price: parseInt(booknpr[1]),
+      totalPrice: parseInt(booknpr[1] * cart.qty)
     });
-    cart.total += bookandprice[1] * cart.qty;
+    cart.total = parseInt(booknpr[1]) *cart.qty;
+  }else{
+    for (var i = 0; i < selectedBooks.length; i++) {
+      var bookandprice = selectedBooks[i].split(',');
+      cart.books.push({
+        title: bookandprice[0],
+        price: parseInt(bookandprice[1]),
+        totalPrice: parseInt(bookandprice[1])*cart.qty
+      });
+      cart.total = bookandprice[1] * cart.qty;
+    }
   }
   console.log('adding cart to session');
   return cart;
 }
 router.post('/purchase', auth.auth, function(req, res, next) {
+  console.log(
+    "HERE"
+  );
+  console.log(req.body);
   var cart = calculate(parseInt(req.body.Quantity), req.body.Books);
   req.session.user.cart = cart;
   res.render('purchase', {
