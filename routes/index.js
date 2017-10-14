@@ -110,7 +110,7 @@ router.get('/login', function(req, res, next) {
 });
 //TODO: GET route for individual books.
 router.post('/signin', auth.auth, function(req, res, next) {
-  res.render('loggedin');
+  res.render('loggedin',{user:req.session.user});
 });
 router.get('/list', auth.auth, function(req, res, next) {
   res.render('shop', {
@@ -166,6 +166,7 @@ router.post('/confirm', auth.auth, function(req, res, next) {
 router.get('/books/:id', function(req, res) {
   for (var i = 0; i < books.length; i++) {
     if (books[i].id === parseInt(req.params.id)) {
+      console.log(i);
       res.render('book', {
         book: {
           title: books[i].title,
@@ -173,14 +174,15 @@ router.get('/books/:id', function(req, res) {
         }
       });
     }
-    if (i == books.length) {
-      res.render('error', {
-        error: {
-          message: 'book doesnt exist',
-          stack: 'book no exist :P'
-        }
-      });
-    }
+  }
+  if (i == books.length) {
+    console.log('i greater');
+    res.render('error', {
+      error: {
+        message: 'book doesnt exist',
+        stack: 'book no exist :P'
+      }
+    });
   }
 });
 
