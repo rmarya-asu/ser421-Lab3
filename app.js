@@ -1,15 +1,17 @@
+//http://lead2.poly.asu.edu:8080/landing.
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var session = require('express-session');
 var index = require('./routes/index');
 var users = require('./routes/users');
-var landing = require('./routes/landing');
 
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,8 +25,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+	secret: 'expressKey',
+	resave: true,
+	saveUninitialized: true
+}));
+
+
+
 app.use('/', index);
-app.use('/landing',landing);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
