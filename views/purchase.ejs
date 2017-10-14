@@ -23,14 +23,14 @@
 			<td><b>Total Cost</b></td>
 		</tr>
 
-
+      <%for (var i=0;i<cart.books.length;i++){%>
 			<tr>
-				<td align="left">The Legend of Sleepy Hollow</td>
-				<td align="right">3</td>
-				<td align="right">$15.99</td>
-				<td align="right">$47.97 </td>
+				<td align="left"><%=cart.books[i].title%></td>
+				<td align="right"><%=cart.qty%></td>
+				<td align="right"><%=cart.books[i].price%></td>
+				<td align="right"><%=cart.books[i].totalPrice%></td>
 			</tr>
-
+      <%}%>
 
 	</tbody>
 </table>
@@ -38,7 +38,7 @@
 
 
 
-<p>Total cost is $148.32</p>
+<p>Total cost is <%=cart.total%></p>
 <p><br>Please enter your Credit Card information:
 </p>
 <form method="post" action="confirm">

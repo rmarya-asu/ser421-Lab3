@@ -31,7 +31,7 @@ Please the following information:
 			<td>
 			<select size="9" name="Books" multiple="multiple">
               <% for (var i=0;i<books.length;i++){%>
-      			  <option value="<%=books[i].title%>"><%=books[i].title%></option>
+      			  <option value="<%=books[i].title%>,<%=books[i].price%>"><%=books[i].title%></option>
               <%}%>
 			</select>
 			</td>

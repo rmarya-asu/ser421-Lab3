@@ -6,7 +6,6 @@
 var express = require('express');
 var router = express.Router();
 var auth = require('../middleware/auth');
-var purchase = require('../middleware/purchase');
 var books = [{
         title: 'Harry Potter and the Philosophers Stone',
         series: 1,
@@ -75,7 +74,6 @@ var books = [{
         price:100
 }];
 
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title:'Books', header:'Shop around for books', books:books});
@@ -91,9 +89,24 @@ router.post('/signin',auth.auth,function(req,res,next){
 router.get('/shop',auth.auth,function(req,res,next){
       res.render('shop',{title:'shop around!!',user:req.user,books:books});
 });
-router.post('/purchase',purchase,function(req,res,next){
-    var data ='';
-    res.render('purchase',{title:'your shopping cart ',data:data})
+
+var calculate = function(quantity,selectedBooks){
+  var cart = {
+    qty:quantity,
+    books:[],
+    total:0
+  }
+  for (var i =0;i<selectedBooks.length;i++){
+      var bookandprice = selectedBooks[i].split(',');
+      cart.books.push({title:bookandprice[0],price:parseInt(bookandprice[1]),totalPrice:parseInt(bookandprice[1]*cart.qty)});
+      cart.total+=bookandprice[1]*cart.qty;
+  }
+  return cart;
+}
+router.post('/purchase',auth.auth,function(req,res,next){
+    var cart = calculate(parseInt(req.body.Quantity),req.body.Books);
+    console.log(cart);
+    res.render('purchase',{title:'your shopping cart ',cart:cart})
     //res.render('purchase')
 });
 
