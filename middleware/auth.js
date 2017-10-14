@@ -5,6 +5,7 @@ var session = require('express-session');
 var user = function(name,password){
   this.name = name;
   this.password = password;
+  this.cart = {}
 }
 
 var auth = function(req,res,next){

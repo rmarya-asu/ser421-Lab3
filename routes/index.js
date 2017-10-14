@@ -5,6 +5,7 @@
 //TODO: add the table, link and route to buy something.
 var express = require('express');
 var router = express.Router();
+var session = require('express-session');
 var auth = require('../middleware/auth');
 var books = [{
         title: 'Harry Potter and the Philosophers Stone',
@@ -75,7 +76,7 @@ var books = [{
 }];
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/landing', function(req, res, next) {
   res.render('index', { title:'Books', header:'Shop around for books', books:books});
 });
 
@@ -84,9 +85,9 @@ router.get('/login',function(req,res,next){
 });
 //TODO: GET route for individual books.
 router.post('/signin',auth.auth,function(req,res,next){
-      res.render('loggedin',{user:req.user});
+      res.render('loggedin');
 });
-router.get('/shop',auth.auth,function(req,res,next){
+router.get('/list',auth.auth,function(req,res,next){
       res.render('shop',{title:'shop around!!',user:req.user,books:books});
 });
 
@@ -94,21 +95,34 @@ var calculate = function(quantity,selectedBooks){
   var cart = {
     qty:quantity,
     books:[],
-    total:0
+    total:0,
+    card:0,
+    cardType:'MasterCard',
+    exp:'no'
   }
   for (var i =0;i<selectedBooks.length;i++){
       var bookandprice = selectedBooks[i].split(',');
       cart.books.push({title:bookandprice[0],price:parseInt(bookandprice[1]),totalPrice:parseInt(bookandprice[1]*cart.qty)});
       cart.total+=bookandprice[1]*cart.qty;
   }
+  console.log('adding cart to session');
   return cart;
 }
 router.post('/purchase',auth.auth,function(req,res,next){
     var cart = calculate(parseInt(req.body.Quantity),req.body.Books);
-    console.log(cart);
+    req.session.user.cart = cart;
     res.render('purchase',{title:'your shopping cart ',cart:cart})
-    //res.render('purchase')
 });
+
+router.post('/confirm',auth.auth,function(req,res,next){
+  // req.session.user.cart.card = req.card
+  console.log(req.body);
+  req.session.user.cart.card = req.body.Cardnumber;
+  req.session.user.cart.cardType = req.body.Creditcard;
+  req.session.user.cart.exp = (req.body.expressdelivery ==='on')?'yes':'no';
+
+  res.render('confirm',{title:'confirmation page',customer:req.session.user})
+})
 
 router.get('/logout',auth.unauth,function(req,res,next){
   res.redirect('/');
