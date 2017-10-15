@@ -1,6 +1,7 @@
 # ser421-Lab3
 
-
+RUTHVIK ARYA - 1211286529
+SHREYAS HOSAHALLI GOVINDARAJA - 1212953324
 
 
 /landing -> home page
@@ -22,5 +23,7 @@ username and password for administrator : 'admin'
 
 Disclaimer: Since we did not use any DB, the books are stored in memory.
 so, any new book added will only persist till the node server is running.
-its a json list which is uipdated when a new book is added by the admin.
+its a json list which is updated when a new book is added by the admin.
 refresh page to see the change.
+
+this also impacts the deleting of a newly added book by the admin.
