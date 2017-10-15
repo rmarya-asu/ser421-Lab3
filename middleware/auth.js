@@ -40,10 +40,17 @@ var adminAcc = function(name,pwd){
 }
 
 var unauth = function(req,res,next){
-  if(req.session.user){
-    req.session = null;
-    next();
-  }
+if(req.session.user){
+  req.session.destroy(function(err){
+     if(err){
+        console.log(err);
+     }else{
+         console.log(session.user);
+         //req.end();
+         res.redirect('/landing');
+     }
+  });
+}
 }
 
 var admin = function(req,res,next){
@@ -63,7 +70,7 @@ var admin = function(req,res,next){
 
 var unadmin = function(req,res,next){
   if(req.session.admin){
-    req.session = null;
+    req.session.destroy();
     next();
   }
 }

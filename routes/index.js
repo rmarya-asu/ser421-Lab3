@@ -114,18 +114,21 @@ router.get('/login', function(req, res, next) {
 });
 
 router.get('/signin', auth.auth, function(req, res, next) {
+  console.log(req.session.user);
   res.redirect('/landing');
 });
 
 router.post('/signin', auth.auth, function(req, res, next) {
+  console.log(req.session.user);
   res.render('loggedin', {
     user: req.session.user
   });
 });
 router.get('/list', auth.auth, function(req, res, next) {
+  console.log(req.session.user);
   res.render('shop', {
     title: 'shop around!!',
-    user: req.user,
+    user: req.session.user,
     books: books
   });
 });
@@ -166,14 +169,12 @@ router.get('/purchase', auth.auth, function(req, res, next) {
   res.redirect('/landing');
 });
 router.post('/purchase', auth.auth, function(req, res, next) {
-  console.log(
-    "HERE"
-  );
   var cart = calculate(parseInt(req.body.Quantity), req.body.Books);
   req.session.user.cart = cart;
   res.render('purchase', {
     title: 'your shopping cart ',
-    cart: cart
+    cart: cart,
+    user:req.session.user
   })
 });
 
