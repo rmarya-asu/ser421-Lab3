@@ -81,4 +81,15 @@ var unadmin = function(req,res,next){
     });
   }
 }
-module.exports = {auth,unauth,admin,unadmin}
+
+
+var fauth = function(req,res,next){
+  if(req.session.user){
+    res.render('loggedin', {
+      user: req.session.user
+    });
+  }else{
+    next();
+  }
+}
+module.exports = {auth,unauth,admin,unadmin,fauth}

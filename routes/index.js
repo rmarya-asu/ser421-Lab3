@@ -98,7 +98,7 @@ var books = [{
 }];
 
 /* GET home page. */
-router.get('/landing', function(req, res, next) {
+router.get('/landing', auth.fauth,function(req, res, next) {
   res.render('index', {
     title: 'Books',
     header: 'Shop around for books',
@@ -110,7 +110,7 @@ router.get('/landing', function(req, res, next) {
 router.get('/',function(req,res){
   res.redirect('/landing');
 });
-router.get('/login', function(req, res, next) {
+router.get('/login', auth.fauth,function(req, res, next) {
   res.render('login');
 });
 
