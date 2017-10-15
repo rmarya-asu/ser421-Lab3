@@ -33,6 +33,12 @@ var auth = function(req,res,next){
 
 };
 
+
+var adminAcc = function(name,pwd){
+  this.name = name;
+  this.pwd =pwd;
+}
+
 var unauth = function(req,res,next){
   if(req.session.user){
     req.session = null;
@@ -40,4 +46,25 @@ var unauth = function(req,res,next){
   }
 }
 
-module.exports = {auth,unauth}
+var admin = function(req,res,next){
+  if(req.session.admin){
+    console.log('Admin is authenticated already');
+    next();
+  }else{
+    if(req.body.username ==='admin' && req.body.username === req.body.password && req.body.username!=undefined){
+      req.session.admin =new adminAcc(req.body.username,req.body.password);
+      console.log('setting admin session ',req.session.user);
+      next();
+    }else{
+      res.redirect('/landing');
+    }
+  }
+}
+
+var unadmin = function(req,res,next){
+  if(req.session.admin){
+    req.session = null;
+    next();
+  }
+}
+module.exports = {auth,unauth,admin,unadmin}

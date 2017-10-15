@@ -177,7 +177,6 @@ router.post('/purchase', auth.auth, function(req, res, next) {
 
 router.post('/confirm', auth.auth, function(req, res, next) {
   // req.session.user.cart.card = req.card
-  console.log(req.Referer);
   req.session.user.cart.card = req.body.Cardnumber;
   req.session.user.cart.cardType = req.body.Creditcard;
   req.session.user.cart.exp = (req.body.expressdelivery === 'on') ? 'yes' : 'no';
@@ -216,8 +215,48 @@ router.get('/books/:id', function(req, res) {
 });
 
 
+router.get('/admin/signin',function(req, res, next) {
+    res.render('adminlogin');
+});
+
+router.post('/admin/signin',auth.admin,function(req,res,next){
+  res.render('adminSuc');
+})
+router.get('/admin/manage',auth.admin,function(req,res,next){
+  res.render('admin');
+});
+//this is a method borrowed from stackoverflow
+//https://stackoverflow.com/questions/6310623/remove-item-from-array-using-its-name-value
+Array.prototype.removeValue = function(name, value){
+   var array = $.map(this, function(v,i){
+      return v[name] === value ? null : v;
+   });
+   this.length = 0; //clear original array
+   this.push.apply(this, array); //push all elements except the one we want to delete
+}
+
+router.post('/admin/addbook',auth.admin,function(req,res,next){
+  console.log('here admin');
+  console.log(req.body);
+
+    var thisBook =   {
+        id: req.body.id,
+        title: req.body.title,
+        author: req.body.author,
+        price: req.body.price
+      };
+    books.push(thisBook);
+    console.log(books);
+    res.render('bookAdded',{book:thisBook});
+//    books.removeValue(id,req.body.id);
+  //  console.log(books);
+
+
+});
 
 
 
-
+router.post('/admin/logout',auth.unadmin,function(req,res,next){
+  res.redirect('/landing');
+})
 module.exports = router;
