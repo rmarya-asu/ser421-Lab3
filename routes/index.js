@@ -6,7 +6,16 @@ var express = require('express');
 var router = express.Router();
 var session = require('express-session');
 var auth = require('../middleware/auth');
+var $ = require('jQuery')
 var books = [{
+  id: 0,
+  title: 'War and Peace',
+  series: 1,
+  author: 'Lev Nicolayevich Tolstoy',
+  desc: "aslkfjalkd jfalksfda ",
+  genre: 'Historical Fiction',
+  price: 100
+},{
   id: 1,
   title: 'Harry Potter and the Philosophers Stone',
   series: 1,
@@ -86,14 +95,6 @@ var books = [{
   desc: "aslkfjalkd jfalksfda ",
   genre: 'Fiction',
   price: 30
-}, {
-  id: 11,
-  title: 'War and Peace',
-  series: 1,
-  author: 'Lev Nicolayevich Tolstoy',
-  desc: "aslkfjalkd jfalksfda ",
-  genre: 'Historical Fiction',
-  price: 100
 }];
 
 /* GET home page. */
@@ -105,6 +106,9 @@ router.get('/landing', function(req, res, next) {
   });
 });
 
+router.get('/',function(req,res){
+  res.redirect('/landing');
+});
 router.get('/login', function(req, res, next) {
   res.render('login');
 });
@@ -234,15 +238,6 @@ router.post('/admin/signin',auth.admin,function(req,res,next){
 router.get('/admin/manage',auth.admin,function(req,res,next){
   res.render('admin',{books:books});
 });
-//this is a method borrowed from stackoverflow
-//https://stackoverflow.com/questions/6310623/remove-item-from-array-using-its-name-value
-Array.prototype.removeValue = function(name, value){
-   var array = $.map(this, function(v,i){
-      return v[name] === value ? null : v;
-   });
-   this.length = 0; //clear original array
-   this.push.apply(this, array); //push all elements except the one we want to delete
-}
 
 router.post('/admin/addbook',auth.admin,function(req,res,next){
   console.log('here admin');
@@ -272,7 +267,7 @@ router.post('/admin/addbook',auth.admin,function(req,res,next){
       };
     books.push(thisBook);
     console.log(books);
-    res.render('bookAdded',{book:thisBook});
+    res.render('bookAdded',{book:thisBook,message:'has been added'});
   }
 
 //    books.removeValue(id,req.body.id);
@@ -281,7 +276,16 @@ router.post('/admin/addbook',auth.admin,function(req,res,next){
 
 });
 
-
+router.get('/admin/delete/:id',auth.admin,function(req,res,next){
+  for(var i =0;i<books.length;i++){
+    if(books[i].id === parseInt(req.params.id)){
+      var thisBook = books[i];
+      books.splice(i,1);
+      res.render('bookAdded',{book:thisBook,message:'has been deleted'})
+    }
+  }
+  console.log(i);
+});
 
 
 router.get('/admin/logout',auth.unadmin,function(req,res,next){

@@ -22,6 +22,7 @@
     <h4>please refresh page to get the new books added</h4>
   <table cellpadding="10">
     <thead>
+    <th>ID</th>
     <th>Name</th>
     <th>AUthOR</th>
     <th>Price</th>
@@ -30,10 +31,11 @@
   <tbody>
     <% for (var i=0;i<books.length;i++){%>
     <tr>
+      <td><%=books[i].id%></td>
       <td><%=books[i].title%></td>
       <td><%=books[i].author%></td>
       <td><%=books[i].price%></td>
-      <td><a href="/books/<%=books[i].id%>">Get Info</a>
+      <td><a href="/admin/delete/<%=books[i].id%>">DELETE</a>
     </tr>
      <%}%>
   </tbody>
