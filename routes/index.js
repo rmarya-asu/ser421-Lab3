@@ -108,7 +108,11 @@ router.get('/landing', function(req, res, next) {
 router.get('/login', function(req, res, next) {
   res.render('login');
 });
-//TODO: GET route for individual books.
+
+router.get('/signin', auth.auth, function(req, res, next) {
+  res.redirect('/landing');
+});
+
 router.post('/signin', auth.auth, function(req, res, next) {
   res.render('loggedin', {
     user: req.session.user
@@ -138,14 +142,14 @@ var calculate = function(quantity, selectedBooks) {
       price: parseInt(booknpr[1]),
       totalPrice: parseInt(booknpr[1] * cart.qty)
     });
-    cart.total = parseInt(booknpr[1]) *cart.qty;
-  }else{
+    cart.total = parseInt(booknpr[1]) * cart.qty;
+  } else {
     for (var i = 0; i < selectedBooks.length; i++) {
       var bookandprice = selectedBooks[i].split(',');
       cart.books.push({
         title: bookandprice[0],
         price: parseInt(bookandprice[1]),
-        totalPrice: parseInt(bookandprice[1])*cart.qty
+        totalPrice: parseInt(bookandprice[1]) * cart.qty
       });
       cart.total = bookandprice[1] * cart.qty;
     }
@@ -153,6 +157,10 @@ var calculate = function(quantity, selectedBooks) {
   console.log('adding cart to session');
   return cart;
 }
+
+router.get('/purchase', auth.auth, function(req, res, next) {
+  res.redirect('/landing');
+});
 router.post('/purchase', auth.auth, function(req, res, next) {
   console.log(
     "HERE"

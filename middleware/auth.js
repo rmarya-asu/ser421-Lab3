@@ -2,10 +2,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
-var user = function(name,password){
+var user = function(name,password,cart){
   this.name = name;
   this.password = password;
-  this.cart = {}
+  this.cart = cart
 }
 
 var auth = function(req,res,next){
@@ -18,8 +18,10 @@ var auth = function(req,res,next){
     next();
   }else{
     //check the request method here?
-    if(req.body.username === req.body.password){
+
+    if(req.body.username === req.body.password && req.body.username!=undefined){
       //set the session variable.
+      var userCart = {};
       req.session.user = new user(req.body.username,req.body.password);
       console.log('setting express session ',req.session.user);
       next();
