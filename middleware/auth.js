@@ -56,6 +56,7 @@ var admin = function(req,res,next){
       console.log('setting admin session ',req.session.user);
       next();
     }else{
+      res.render('error',{error:{message:'admin and admin',stack:'i would try admin and admin,if i were an admin '}});
       res.redirect('/landing');
     }
   }

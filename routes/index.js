@@ -165,8 +165,6 @@ router.post('/purchase', auth.auth, function(req, res, next) {
   console.log(
     "HERE"
   );
-
-  console.log(req);
   var cart = calculate(parseInt(req.body.Quantity), req.body.Books);
   req.session.user.cart = cart;
   res.render('purchase', {
@@ -215,6 +213,14 @@ router.get('/books/:id', function(req, res) {
 });
 
 
+router.get('/admin',auth.admin,function(req,res,next){
+  if(req.session.admin){
+    res.redirect('/adminSuc');
+  }
+  else{
+    res.redirect('/admin/signin');
+  }
+})
 router.get('/admin/signin',function(req, res, next) {
     res.render('adminlogin');
 });
@@ -238,7 +244,23 @@ Array.prototype.removeValue = function(name, value){
 router.post('/admin/addbook',auth.admin,function(req,res,next){
   console.log('here admin');
   console.log(req.body);
-
+  if(req.body.title===undefined || req.body.title === '' ){
+    res.render('error',{error:{message:'invalid book title ',stack:'relly? couldnt type one title?'}});
+  }else if(req.body.id === undefined || req.body.id === ''){
+    res.render('error',{error:{message:'invalid book id ',stack:'yep... the id is important'}});
+  }
+  else if(req.body.author === undefined || req.body.author === ''){
+    res.render('error',{error:{message:'invalid book author ',stack:'why would you do that?'}});
+  }
+  else if(req.body.price === undefined || req.body.price === 'i would ask you to pick a number between 1 and 20,but if you wanna keep up with the stupid numbners, go ahead'){
+    if(req.body.price<0){
+    res.render('error',{error:{message:'invalid price value ',stack:''}});
+    }
+    if(req.body.price>1000){
+    res.render('error',{error:{message:'invalid price value ',stack:'you are being unreasonable here'}});
+    }
+    res.render('error',{error:{message:'invalid price value ',stack:''}});
+  }else{
     var thisBook =   {
         id: req.body.id,
         title: req.body.title,
@@ -248,6 +270,8 @@ router.post('/admin/addbook',auth.admin,function(req,res,next){
     books.push(thisBook);
     console.log(books);
     res.render('bookAdded',{book:thisBook});
+  }
+
 //    books.removeValue(id,req.body.id);
   //  console.log(books);
 
@@ -257,7 +281,7 @@ router.post('/admin/addbook',auth.admin,function(req,res,next){
 
 
 
-router.post('/admin/logout',auth.unadmin,function(req,res,next){
+router.get('/admin/logout',auth.unadmin,function(req,res,next){
   res.redirect('/landing');
 })
 module.exports = router;
