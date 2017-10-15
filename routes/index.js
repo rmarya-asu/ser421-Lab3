@@ -102,7 +102,8 @@ router.get('/landing', function(req, res, next) {
   res.render('index', {
     title: 'Books',
     header: 'Shop around for books',
-    books: books
+    books: books,
+    user:req.session.user
   });
 });
 
