@@ -70,8 +70,15 @@ var admin = function(req,res,next){
 
 var unadmin = function(req,res,next){
   if(req.session.admin){
-    req.session.destroy();
-    next();
+    req.session.destroy(function(err){
+       if(err){
+          console.log(err);
+       }else{
+           console.log(session.admin);
+           //req.end();
+           res.redirect('/landing');
+       }
+    });
   }
 }
 module.exports = {auth,unauth,admin,unadmin}
