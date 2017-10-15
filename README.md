@@ -4,6 +4,9 @@ RUTHVIK ARYA - 1211286529
 SHREYAS HOSAHALLI GOVINDARAJA - 1212953324
 
 
+Please run npm install before you run
+npm start
+
 /landing -> home page
 /login  -> Login Page
 /signin ->  Logged in Page.

@@ -54,5 +54,8 @@ app.use(function(err, req, res, next) {
 });
 
 
-app.listen(3000);
+app.listen(3000,function(err){
+	if(err){console.log(err);}
+	console.log('express server running on port:3000');
+});
 module.exports = app;
