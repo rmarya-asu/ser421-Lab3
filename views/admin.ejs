@@ -17,5 +17,26 @@
       <input type="submit" name="Add book" value="Add Book">
     </form>
     <br><a href="/admin/logout">LOGOUT</a>
-  </body>
+
+  <h1>Books<h1>
+    <h4>please refresh page to get the new books added</h4>
+  <table cellpadding="10">
+    <thead>
+    <th>Name</th>
+    <th>AUthOR</th>
+    <th>Price</th>
+    <th>More Info</th>
+  </thead>
+  <tbody>
+    <% for (var i=0;i<books.length;i++){%>
+    <tr>
+      <td><%=books[i].title%></td>
+      <td><%=books[i].author%></td>
+      <td><%=books[i].price%></td>
+      <td><a href="/books/<%=books[i].id%>">Get Info</a>
+    </tr>
+     <%}%>
+  </tbody>
+  </table>
+</body>
 </html>

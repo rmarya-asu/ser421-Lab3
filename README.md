@@ -19,3 +19,8 @@ name= admin password= admin
 
 
 username and password for administrator : 'admin'
+
+Disclaimer: Since we did not use any DB, the books are stored in memory.
+so, any new book added will only persist till the node server is running.
+its a json list which is uipdated when a new book is added by the admin.
+refresh page to see the change.

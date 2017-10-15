@@ -232,7 +232,7 @@ router.post('/admin/signin',auth.admin,function(req,res,next){
   res.render('adminSuc');
 })
 router.get('/admin/manage',auth.admin,function(req,res,next){
-  res.render('admin');
+  res.render('admin',{books:books});
 });
 //this is a method borrowed from stackoverflow
 //https://stackoverflow.com/questions/6310623/remove-item-from-array-using-its-name-value
