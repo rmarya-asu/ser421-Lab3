@@ -157,7 +157,8 @@ router.post('/purchase', auth.auth, function(req, res, next) {
   console.log(
     "HERE"
   );
-  console.log(req.body);
+
+  console.log(req);
   var cart = calculate(parseInt(req.body.Quantity), req.body.Books);
   req.session.user.cart = cart;
   res.render('purchase', {
@@ -168,7 +169,7 @@ router.post('/purchase', auth.auth, function(req, res, next) {
 
 router.post('/confirm', auth.auth, function(req, res, next) {
   // req.session.user.cart.card = req.card
-  console.log(req.body);
+  console.log(req.Referer);
   req.session.user.cart.card = req.body.Cardnumber;
   req.session.user.cart.cardType = req.body.Creditcard;
   req.session.user.cart.exp = (req.body.expressdelivery === 'on') ? 'yes' : 'no';
