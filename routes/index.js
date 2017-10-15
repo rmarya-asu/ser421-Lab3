@@ -151,7 +151,7 @@ var calculate = function(quantity, selectedBooks) {
         price: parseInt(bookandprice[1]),
         totalPrice: parseInt(bookandprice[1]) * cart.qty
       });
-      cart.total = bookandprice[1] * cart.qty;
+      cart.total += (bookandprice[1] * cart.qty);
     }
   }
   console.log('adding cart to session');
@@ -253,6 +253,7 @@ router.post('/admin/addbook',auth.admin,function(req,res,next){
 
 
 });
+
 
 
 
