@@ -173,6 +173,9 @@ router.post('/purchase', auth.auth, function(req, res, next) {
   })
 });
 
+router.get('/confirm', auth.auth, function(req, res, next) {
+  res.redirect('/landing');
+});
 router.post('/confirm', auth.auth, function(req, res, next) {
   // req.session.user.cart.card = req.card
   req.session.user.cart.card = req.body.Cardnumber;
