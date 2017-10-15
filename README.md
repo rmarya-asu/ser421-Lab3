@@ -2,6 +2,7 @@
 
 
 
+
 /landing -> home page
 /login  -> Login Page
 /signin ->  Logged in Page.
@@ -16,3 +17,5 @@ name= admin password= admin
 /admin/manage -> Add a new book in admin page
 /admin/addbook -> new book added confirmation page
 
+
+username and password for administrator : 'admin'

@@ -245,7 +245,7 @@ router.post('/admin/addbook',auth.admin,function(req,res,next){
   console.log('here admin');
   console.log(req.body);
   if(req.body.title===undefined || req.body.title === '' ){
-    res.render('error',{error:{message:'invalid book title ',stack:'relly? couldnt type one title?'}});
+    res.render('error',{error:{message:'invalid book title ',stack:'really? couldnt type one title?'}});
   }else if(req.body.id === undefined || req.body.id === ''){
     res.render('error',{error:{message:'invalid book id ',stack:'yep... the id is important'}});
   }
